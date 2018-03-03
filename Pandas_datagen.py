@@ -31,6 +31,9 @@ for t in a[-4:] :
     c = list(t.columns)
     t = t[c[:5]]
     
+    # we will be transposing the dataframes
+    # this below loop is used to create headers for it
+    # as transposing will created headers from the index which is numeric
     t['A'] = pd.Series('row_'+str(i) for i in range(len(t)))
     t.set_index('A', inplace=True)
     
@@ -42,14 +45,14 @@ for t in a[-4:] :
     for i in x.columns:
         if x[i][0] in months or x[i][0].isnumeric():
             x[i] = x[i].shift(-1)
-    for i in x.columns: #doing again to remove numbers left behind by the months
+    for i in x.columns: #doing again to remove numbers(openings data) left behind by the months
         if x[i][0] in months or x[i][0].isnumeric():
             x[i] = x[i].shift(-1)
     
     # transposing again to bring the table back to its original shape
     t = x.T
-    t = t[['Opening','Studio']]
-    t = t.rename(columns={'Opening':'Title','Studio':'Cast'})
+    t = t[['Opening', 'Studio']]
+    t = t.rename(columns={'Opening' : 'Title', 'Studio' : 'Cast'})
     p.append(t)
 
 a = p[0].append([p[1],p[2],p[3]],ignore_index=True)
@@ -66,6 +69,12 @@ nodes, links = [], []
 
 # 'links list' will contain the relationship information like
 #  which actors acted in which movies and so on
+
+
+# this is interesting part where we split our 'cast and crew' data 
+# into 'directors' , 'actors' and 'screenplay' elements
+# the Wikipedia does not give us uniformly formatted data
+# so, processing it requires some string manipulation
 
 for mov,i in a.itertuples(index=False):
     nodes.append({'name':mov,'group':1})
