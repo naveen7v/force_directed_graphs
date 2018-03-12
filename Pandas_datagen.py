@@ -1,6 +1,6 @@
 # My experimental project on Force directed graphs
 # based on http://www.austintaylor.io/d3/python/pandas/2016/02/01/create-d3-chart-python-force-directed/
-# methods but instead of Les Misérables or Network traffic data, I used Wikipedia's 2017 movie data
+# but instead of Les Misérables or Network traffic data, I used Wikipedia's 2017 movie data
 
 import pandas as pd,requests,json
 from io import StringIO
@@ -20,7 +20,7 @@ months = ['J A N U A R Y',
           'D E C E M B E R']
 
 
-p = requests.get('https://en.wikipedia.org/wiki/2017_in_film').text  #just change the year to get that years data
+p = requests.get('https://en.wikipedia.org/wiki/2017_in_film').text  #just change the year to get that data
 a = pd.read_html(StringIO(p), attrs={"class":"wikitable"})
 
 # the last 4 dataframes in list 'a' contain our movie data
@@ -31,16 +31,16 @@ for t in a[-4:] :
     c = list(t.columns)
     t = t[c[:5]]
     
-    # we will be transposing the dataframes
-    # this below loop is used to create headers for it
+    # we will be transposing the dataframes just after this step
     # as transposing will created headers from the index which is numeric
+    # this below loop is used to create headers which can be used instead of numeric headers
     t['A'] = pd.Series('row_'+str(i) for i in range(len(t)))
     t.set_index('A', inplace=True)
     
     # dataframe now has values in rows that are not needed,
     # so we need to shift them left, since we need the remaining data
-    # but shifting rows is not directly possible,so...
-    # transpose the dataframe, now we can shift the columns 
+    # but shifting rows is not directly possible,
+    # hence the transposing of the dataframe, now we can shift the columns 
     x = t.T 
     for i in x.columns:
         if x[i][0] in months or x[i][0].isnumeric():
@@ -55,7 +55,7 @@ for t in a[-4:] :
     t = t.rename(columns={'Opening' : 'Title', 'Studio' : 'Cast'})
     p.append(t)
 
-a = p[0].append([p[1],p[2],p[3]],ignore_index=True)
+a = p[0].append([p[1], p[2], p[3]], ignore_index=True)
 
 movie_actor_dict = {}
 movie_director_dict = {}
@@ -74,6 +74,8 @@ nodes, links = [], []
 # this is interesting part where we split our 'cast and crew' data 
 # into 'directors' , 'actors' and 'screenplay' elements
 # the Wikipedia does not give us uniformly formatted data
+# usually directors,actors & screenplay are categorized by the ';' char
+# in rare cases its not like that.
 # so, processing it requires some string manipulation
 
 for mov,i in a.itertuples(index=False):
