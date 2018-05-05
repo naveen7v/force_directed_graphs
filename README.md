@@ -6,10 +6,7 @@ to create this projecct.
 
 This requires a big screen to view the whole of the graph..
 
-Next things to do:
+How to run for yourself : 
 
-1.Make a 3D graph
-
-2.Include a search bar to locate and highlight nodes
-
-3.More info to be displayed on mouse hover
+Run the Pandas_datagen.py file 
+It will create a JSON file named export.json
