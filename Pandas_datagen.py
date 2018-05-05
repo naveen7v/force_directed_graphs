@@ -154,6 +154,6 @@ for i in links:
 
 # finally writing our data as json file to be used in the html.
 json_dump = json.dumps({"nodes":nodes, "links":nlinks}, indent=1, sort_keys=True)
-json_out = open('/home/nav/Desktop/export.json','w')
+json_out = open('export.json','w')
 json_out.write(json_dump)
 json_out.close()
