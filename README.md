@@ -6,7 +6,10 @@ to create this projecct.
 
 This requires a big screen to view the whole of the graph..
 
-How to run for yourself : 
+How to run it for yourself : 
 
-Run the Pandas_datagen.py file 
-It will create a JSON file named export.json
+Run the Pandas_datagen.py file (inside it you can change the year to download that particular year's info)
+
+It will create a JSON file named export.json in your directory
+
+Now just open the index.html file in the browser you will be able to see the graph of the movies,actors,etc and their relationship
